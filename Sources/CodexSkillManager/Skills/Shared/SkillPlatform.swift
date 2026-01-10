@@ -68,4 +68,19 @@ enum SkillPlatform: String, CaseIterable, Identifiable, Hashable, Sendable, Coda
             return Color(red: 77.0 / 255.0, green: 212.0 / 255.0, blue: 212.0 / 255.0)
         }
     }
+
+    var agentID: AgentID {
+        switch self {
+        case .pi:
+            return .pi
+        case .codex:
+            return .codex
+        case .claude:
+            return .claude
+        case .opencode:
+            return .opencode
+        case .copilot:
+            return .copilot
+        }
+    }
 }

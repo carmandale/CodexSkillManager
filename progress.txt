@@ -84,3 +84,14 @@ Thread: https://ampcode.com/threads/T-019ba76d-c8fe-77c4-bd21-2e0b8dcb0377
   - Use .gitkeep files to preserve empty directories in git
   - Extensions/, Repos/, Workers/ were already created in previous work
 ---
+
+## Sat Jan 10 2026 - US-009
+Thread: https://ampcode.com/threads/T-019ba76f-1232-76b6-9c43-465c3523f860
+- Created AgentID enum in Sources/CodexSkillManager/Models/AgentID.swift
+- Added cases: pi, claude, codex, opencode, copilot
+- Implemented Identifiable with `id` property returning rawValue
+- Files changed: Sources/CodexSkillManager/Models/AgentID.swift
+- **Learnings for future iterations:**
+  - Models directory created in US-008, now populated with first model
+  - AgentID will be used for cross-section lookups and agent filtering
+---

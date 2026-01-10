@@ -12,7 +12,7 @@ struct SkillSplitView: View {
     @State private var isDownloadingRemote = false
     @State private var didDownloadRemote = false
     @State private var installSkill: RemoteSkill?
-    @State private var installTargets: Set<SkillPlatform> = [.codex]
+    @State private var installTargets: Set<SkillPlatform> = [.pi]
     @State private var searchTask: Task<Void, Never>?
 
     private var filteredSkills: [Skill] {

@@ -60,3 +60,17 @@ Thread: https://ampcode.com/threads/T-019ba76b-a762-74fe-9e02-18aaa9855185
   - Window title is set via the WindowGroup initializer string parameter on line 15
   - Simple one-line change, no other references to update
 ---
+
+## Sat Jan 10 2026 - US-007
+Thread: https://ampcode.com/threads/T-019ba76c-7dfe-74b8-897b-266e78cbe931
+- Migrated Application Support folder from legacy "CodexSkillManager" to "AgentConfigManager"
+- Added constants: `legacyAppSupportFolderName` and `currentAppSupportFolderName`
+- Updated `publishStateDirectory()` to use current folder name
+- Added `legacyPublishStateDirectory()` and `legacyPublishStateURL()` helper methods
+- Updated `loadPublishState()` to check current folder first, then fallback to legacy
+- `savePublishState()` writes only to current folder
+- Files changed: Sources/CodexSkillManager/Skills/Local/SkillStore.swift
+- **Learnings for future iterations:**
+  - Publish state is stored per-skill as JSON files in `~/Library/Application Support/<AppFolder>/skill-state/<slug>.json`
+  - The migration pattern (check new location, fallback to old) is a clean approach for folder renames
+---

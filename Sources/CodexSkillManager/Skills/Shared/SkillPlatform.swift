@@ -1,6 +1,7 @@
 import SwiftUI
 
 enum SkillPlatform: String, CaseIterable, Identifiable, Hashable, Sendable, Codable {
+    case pi = "Pi Agent"
     case codex = "Codex"
     case claude = "Claude Code"
     case opencode = "OpenCode"
@@ -10,6 +11,8 @@ enum SkillPlatform: String, CaseIterable, Identifiable, Hashable, Sendable, Coda
 
     var storageKey: String {
         switch self {
+        case .pi:
+            return "pi"
         case .codex:
             return "codex"
         case .claude:
@@ -24,6 +27,8 @@ enum SkillPlatform: String, CaseIterable, Identifiable, Hashable, Sendable, Coda
     /// Relative path from a base directory to the skills folder
     var relativePath: String {
         switch self {
+        case .pi:
+            return ".pi/agent/skills"
         case .codex:
             return ".codex/skills/public"
         case .claude:
@@ -51,6 +56,8 @@ enum SkillPlatform: String, CaseIterable, Identifiable, Hashable, Sendable, Coda
 
     var badgeTint: Color {
         switch self {
+        case .pi:
+            return .green
         case .codex:
             return Color(red: 164.0 / 255.0, green: 97.0 / 255.0, blue: 212.0 / 255.0)
         case .claude:

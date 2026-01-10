@@ -155,3 +155,17 @@ Thread: https://ampcode.com/threads/T-019ba77d-5809-757a-ba75-ad517bf50b19
   - NavigationSection defines sidebar navigation; future sections can add more cases here
   - SF Symbol names: puzzlepiece.extension (skills), square.stack.3d.up (extensions), command (commands), doc.text (agentsmd), folder (repos)
 ---
+
+## Sat Jan 10 2026 - US-015
+Thread: https://ampcode.com/threads/T-019ba77e-4e8d-744e-b459-9814ad10362c
+- Created AppModel.swift with @Observable @MainActor class
+- Added selectedSection (NavigationSection) and selectedAgents (Set<AgentID>) properties
+- Added settings (SettingsStore), skillStore (SkillStore), remoteSkillStore (RemoteSkillStore) references
+- Init syncs selectedAgents from settings.selectedAgents
+- Added persistAgentSelection() method that saves to settings
+- Files changed: Sources/CodexSkillManager/Models/AppModel.swift
+- **Learnings for future iterations:**
+  - AppModel is the root coordinator for 3-column navigation
+  - It owns the stores but doesn't create them (dependency injection from app entry point)
+  - persistAgentSelection() pattern: copy to settings then save()
+---

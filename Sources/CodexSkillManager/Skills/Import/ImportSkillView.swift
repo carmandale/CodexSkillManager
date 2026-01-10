@@ -17,7 +17,7 @@ struct ImportSkillView: View {
     @State private var candidate: ImportCandidate?
     @State private var status: Status = .idle
     @State private var errorMessage: String = ""
-    @State private var installTargets: Set<SkillPlatform> = [.codex]
+    @State private var installTargets: Set<SkillPlatform> = [.pi]
     private let importWorker = SkillImportWorker()
 
     private enum Status {

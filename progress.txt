@@ -11,3 +11,13 @@ Thread: https://ampcode.com/threads/T-019ba765-78c0-70f8-a4d1-cb7d269fe8ca
   - Baseline build is clean and compiles in ~4 seconds
   - Using SwiftPM with macOS target
 ---
+
+## Sat Jan 10 2026 - US-002
+Thread: https://ampcode.com/threads/T-019ba766-4395-72a2-91af-f740deef4d94
+- Added `.pi = "Pi Agent"` case to SkillPlatform enum
+- Set storageKey ("pi"), rootURL (~/.pi/agent/skills), badgeTint (.green), description
+- Files changed: Sources/CodexSkillManager/Skills/Shared/SkillPlatform.swift
+- **Learnings for future iterations:**
+  - SkillPlatform enum has 4 computed properties that all need updating when adding a new case: storageKey, rootURL, description, badgeTint
+  - Pi Agent case added first in enum to prioritize it in CaseIterable ordering
+---

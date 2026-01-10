@@ -1,0 +1,284 @@
+{
+  "project": "CodexSkillManager → Agent Config Manager",
+  "branchName": "ralph/agent-config-manager",
+  "description": "Evolve CodexSkillManager into a unified manager for AI coding agent configuration with Pi Agent support, 3-column layout, extensions management, slash commands, AGENTS.md central config, repo scanning, and migration wizard.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Verify clean baseline build",
+      "description": "As a developer, I need to ensure the project builds before starting major refactoring.",
+      "acceptanceCriteria": [
+        "Run `swift build`",
+        "Build succeeds with no errors",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Add Pi Agent to SkillPlatform enum",
+      "description": "As a developer, I need to register Pi Agent as a skill platform alongside Codex, Claude, etc.",
+      "acceptanceCriteria": [
+        "Add `.pi = \"Pi Agent\"` case to SkillPlatform enum",
+        "Set storageKey, rootURL (~/.pi/agent/skills), badgeTint (green), description",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Update default install target to Pi Agent",
+      "description": "As a user installing a skill, the default target should be Pi Agent instead of Codex.",
+      "acceptanceCriteria": [
+        "Change `@State private var installTargets` default from `[.codex]` to `[.pi]`",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Fix open folder fallback path",
+      "description": "When opening a folder without platform specified, use Pi Agent path instead of hardcoded Codex path.",
+      "acceptanceCriteria": [
+        "In SkillSplitView, replace `~/.codex/skills/public` fallback with `SkillPlatform.pi.rootURL`",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Update preferred platform ordering",
+      "description": "Reorder platform listing to prioritize Pi Agent first.",
+      "acceptanceCriteria": [
+        "Update both `preferredPlatformOrder` and `preferredOrder` to `[.pi, .codex, .claude, .opencode, .copilot]`",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Rename app window title",
+      "description": "Change window title from \"Codex Skill Manager\" to \"Agent Config Manager\".",
+      "acceptanceCriteria": [
+        "Update WindowGroup title in CodexSkillManagerApp.swift",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-007",
+      "title": "Migrate Application Support folder",
+      "description": "Move publish state from legacy folder to new folder, with fallback support for old location.",
+      "acceptanceCriteria": [
+        "Add constants for legacy (`CodexSkillManager`) and current (`AgentConfigManager`) folder names",
+        "Update `publishStateDirectory()` to use current folder",
+        "Update `loadPublishState()` to check legacy folder if current doesn't exist",
+        "`savePublishState()` writes to current folder only",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008",
+      "title": "Create directory structure",
+      "description": "Create necessary source directories for new features.",
+      "acceptanceCriteria": [
+        "Create `Sources/CodexSkillManager/Models/` if missing",
+        "Create `Sources/CodexSkillManager/Shared/` if missing",
+        "Create `Sources/CodexSkillManager/Extensions/` if missing",
+        "Create `Sources/CodexSkillManager/Repos/` if missing",
+        "Create `Sources/CodexSkillManager/Workers/` if missing",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-009",
+      "title": "Create AgentID enum",
+      "description": "Define enum for agent identification across all sections.",
+      "acceptanceCriteria": [
+        "Create AgentID.swift with `enum AgentID: String, CaseIterable, Identifiable, Hashable, Sendable`",
+        "Add cases: pi, claude, codex, opencode, copilot",
+        "Implement id property as rawValue",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-010",
+      "title": "Add AgentID mapping to SkillPlatform",
+      "description": "Link SkillPlatform to AgentID for cross-section lookups.",
+      "acceptanceCriteria": [
+        "Add computed property `var agentID: AgentID` to SkillPlatform",
+        "Map each platform case to corresponding agent",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-011",
+      "title": "Create AgentConfigPaths constants",
+      "description": "Centralize all configuration paths in one place.",
+      "acceptanceCriteria": [
+        "Create AgentConfigPaths.swift",
+        "Add static URLs: centralRootURL, centralAgentsMarkdownURL, centralCommandsURL, piSkillsURL, piExtensionsURL, etc.",
+        "All paths use expanded `~` syntax",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-012",
+      "title": "Create AgentConfig registry",
+      "description": "Build central registry of all agents with their configuration locations.",
+      "acceptanceCriteria": [
+        "Create AgentConfig.swift with struct implementing Identifiable, Hashable, Sendable",
+        "Include: id, displayName, badgeColor, skillsURL?, extensionsURL?, commandsURL?, agentsMarkdownURL?",
+        "Create static `all: [AgentConfig]` array with all 5 agents",
+        "Add `var skillPlatform: SkillPlatform?` mapping",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-013",
+      "title": "Create SettingsStore",
+      "description": "Persist user preferences like watched directories and agent selection.",
+      "acceptanceCriteria": [
+        "Create SettingsStore.swift with `@Observable @MainActor` class",
+        "Add `var watchedDirectories: [URL]` with default `[~/dev]`",
+        "Add `var selectedAgents: Set<AgentID>` with default empty",
+        "Implement `load()` using UserDefaults",
+        "Implement `save()` using UserDefaults",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-014",
+      "title": "Create NavigationSection enum",
+      "description": "Define sidebar sections for the app.",
+      "acceptanceCriteria": [
+        "Create NavigationSection.swift",
+        "Add cases: skills, extensions, commands, agentsmd, repos",
+        "Implement `var name: String` property",
+        "Implement `var symbolName: String` property (SF Symbols)",
+        "Implement Identifiable protocol",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-015",
+      "title": "Create AppModel root coordinator",
+      "description": "Build root model that coordinates all stores and app state.",
+      "acceptanceCriteria": [
+        "Create AppModel.swift with `@Observable @MainActor` class",
+        "Add `var selectedSection: NavigationSection = .skills`",
+        "Add `var selectedAgents: Set<AgentID> = []`",
+        "Add `let settings: SettingsStore`",
+        "Add `let skillStore: SkillStore`",
+        "Add `let remoteSkillStore: RemoteSkillStore`",
+        "Init loads settings and syncs selectedAgents",
+        "Add `persistAgentSelection()` method",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-016",
+      "title": "Create SidebarView",
+      "description": "Implement sidebar with section navigation and agent filter.",
+      "acceptanceCriteria": [
+        "Create SidebarView.swift",
+        "Display all NavigationSection cases with icons",
+        "Show agent filter toggles for each agent in AgentConfig.all",
+        "Add \"All Agents\" toggle that clears selectedAgents set",
+        "Bind toggles to AppModel.selectedAgents",
+        "Call persistAgentSelection() on changes",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-017",
+      "title": "Create placeholder views",
+      "description": "Create minimal content and detail placeholder views for future sections.",
+      "acceptanceCriteria": [
+        "Create PlaceholderContentView.swift with title + \"Coming soon\"",
+        "Create PlaceholderDetailView.swift with title + \"Coming soon\"",
+        "Both accept String title parameter",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-018",
+      "title": "Create MainSplitView shell",
+      "description": "Build 3-column NavigationSplitView that routes based on selected section.",
+      "acceptanceCriteria": [
+        "Create MainSplitView.swift",
+        "Implement 3-column NavigationSplitView: sidebar + content + detail",
+        "Column 1: SidebarView",
+        "Column 2: PlaceholderContentView (will be replaced by section)",
+        "Column 3: PlaceholderDetailView (will be replaced by section)",
+        "Read AppModel from environment",
+        "Typecheck passes",
+        "`swift build` succeeds"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

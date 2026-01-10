@@ -194,3 +194,17 @@ Thread: https://ampcode.com/threads/T-019ba781-02d0-75a9-b0da-043eaf1f6aa6
   - Placeholder views are intentionally minimal; they will be replaced by section-specific views
   - Both use the same pattern with VStack and centered text styling
 ---
+
+## Sat Jan 10 2026 - US-018
+Thread: https://ampcode.com/threads/T-019ba782-b1ac-70d8-9407-cca6b69c703e
+- Created MainSplitView.swift in Sources/CodexSkillManager/Shared/
+- Implemented 3-column NavigationSplitView: sidebar (SidebarView), content, detail
+- Content and detail columns use switch statements on appModel.selectedSection to route to appropriate views
+- Currently all sections use PlaceholderContentView/PlaceholderDetailView (ready for replacement)
+- Reads AppModel from environment using @Environment(AppModel.self)
+- Files changed: Sources/CodexSkillManager/Shared/MainSplitView.swift
+- **Learnings for future iterations:**
+  - Use @ViewBuilder for switch-based view selection in SwiftUI
+  - MainSplitView is the shell that will be used in the main WindowGroup
+  - Each case in the switch can be replaced with section-specific views as they're implemented
+---

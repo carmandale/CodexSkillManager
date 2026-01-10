@@ -12,7 +12,7 @@ struct CodexSkillManagerApp: App {
     @State private var remoteStore = RemoteSkillStore(client: .live())
 
     var body: some Scene {
-        WindowGroup("Codex Skill Manager") {
+        WindowGroup("Agent Config Manager") {
             SkillSplitView()
                 .environment(store)
                 .environment(remoteStore)

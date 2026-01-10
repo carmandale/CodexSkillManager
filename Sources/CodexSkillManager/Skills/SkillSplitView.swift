@@ -205,8 +205,7 @@ struct SkillSplitView: View {
             url = platform.rootURL.appendingPathComponent(slug)
         } else {
             url = store.selectedSkill?.folderURL
-                ?? FileManager.default.homeDirectoryForCurrentUser
-                    .appendingPathComponent(".codex/skills/public")
+                ?? SkillPlatform.pi.rootURL
         }
         NSWorkspace.shared.open(url)
     }

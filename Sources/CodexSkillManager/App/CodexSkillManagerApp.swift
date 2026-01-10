@@ -20,7 +20,7 @@ struct CodexSkillManagerApp: App {
     }
 
     var body: some Scene {
-        WindowGroup("Codex Skill Manager") {
+        WindowGroup("Agent Config Manager") {
             SkillSplitView()
                 .environment(store)
                 .environment(remoteStore)

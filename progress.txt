@@ -40,3 +40,13 @@ Thread: https://ampcode.com/threads/T-019ba769-bc17-703b-bf2c-89c0c2fc00df
   - The `openSelectedSkillFolder` function had a hardcoded fallback that needed updating
   - Using `SkillPlatform.pi.rootURL` is cleaner and follows the existing pattern for platform paths
 ---
+
+## Sat Jan 10 2026 - US-005
+Thread: https://ampcode.com/threads/T-019ba76a-9ea5-7519-ba2f-cd5610f533f0
+- Updated preferred platform ordering to prioritize Pi Agent first
+- Changed both `preferredPlatformOrder` and `preferredOrder` arrays from `[.codex, .claude, .opencode, .copilot]` to `[.pi, .codex, .claude, .opencode, .copilot]`
+- Files changed: Sources/CodexSkillManager/Skills/Local/SkillStore.swift
+- **Learnings for future iterations:**
+  - There are two separate `preferredOrder` arrays in SkillStore.swift (lines 193 and 270) - both must be updated together
+  - `preferredPlatformOrder` is used for grouping local skills, while `preferredOrder` is used for normalizing selection
+---

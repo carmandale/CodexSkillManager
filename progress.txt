@@ -130,3 +130,15 @@ Thread: https://ampcode.com/threads/T-019ba77a-bff7-730f-9881-62846865df9c
   - Badge colors match those in SkillPlatform.badgeTint for consistency
   - Only Pi Agent has extensionsURL; others are nil (can be extended later)
 ---
+
+## Sat Jan 10 2026 - US-013
+Thread: https://ampcode.com/threads/T-019ba77c-2db1-7635-9c54-ea8b8d43ee54
+- Created SettingsStore.swift with @Observable @MainActor class
+- Added watchedDirectories with default [~/dev] and selectedAgents with default empty set
+- Implemented load() and save() using UserDefaults for persistence
+- Files changed: Sources/CodexSkillManager/Models/SettingsStore.swift
+- **Learnings for future iterations:**
+  - SettingsStore uses UserDefaults for simple key-value persistence
+  - URLs are stored as path strings in UserDefaults, converted back on load
+  - Class is Sendable for concurrency safety
+---

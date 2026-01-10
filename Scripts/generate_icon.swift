@@ -6,16 +6,16 @@ let image = NSImage(size: size)
 image.lockFocus()
 
 let rect = NSRect(origin: .zero, size: size)
-let tileRect = rect.insetBy(dx: 56, dy: 56)
-let cornerRadius: CGFloat = 220
+let tileRect = rect.insetBy(dx: 100, dy: 100)
+let cornerRadius: CGFloat = 232
 let backgroundPath = NSBezierPath(roundedRect: tileRect, xRadius: cornerRadius, yRadius: cornerRadius)
 
-let topColor = NSColor(calibratedRed: 0.26, green: 0.76, blue: 1.00, alpha: 1.0)
-let midColor = NSColor(calibratedRed: 0.08, green: 0.52, blue: 0.98, alpha: 1.0)
-let bottomColor = NSColor(calibratedRed: 0.04, green: 0.32, blue: 0.90, alpha: 1.0)
-let gradient = NSGradient(colors: [topColor, midColor, bottomColor])
+let bottomLeftColor = NSColor(calibratedRed: 10.0 / 255.0, green: 88.0 / 255.0, blue: 245.0 / 255.0, alpha: 1.0)
+let centerColor = NSColor(calibratedRed: 18.0 / 255.0, green: 150.0 / 255.0, blue: 250.0 / 255.0, alpha: 1.0)
+let topRightColor = NSColor(calibratedRed: 0.0 / 255.0, green: 205.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
+let gradient = NSGradient(colors: [bottomLeftColor, centerColor, topRightColor])
 
-gradient?.draw(in: backgroundPath, angle: -90)
+gradient?.draw(in: backgroundPath, angle: 45)
 
 let highlightPath = NSBezierPath(roundedRect: tileRect.insetBy(dx: 16, dy: 16),
                                  xRadius: cornerRadius - 10,
@@ -38,14 +38,14 @@ glyphShadow.shadowBlurRadius = 16
 glyphShadow.shadowOffset = NSSize(width: 0, height: -3)
 glyphShadow.shadowColor = NSColor.black.withAlphaComponent(0.22)
 
-let glyphColor = NSColor(calibratedWhite: 0.99, alpha: 0.96)
+let glyphColor = NSColor(calibratedRed: 0.811, green: 0.911, blue: 0.990, alpha: 1.0)
 let symbolConfig = NSImage.SymbolConfiguration(pointSize: 740, weight: .semibold)
     .applying(NSImage.SymbolConfiguration(paletteColors: [glyphColor]))
 let symbol = NSImage(systemSymbolName: "puzzlepiece.fill", accessibilityDescription: nil)?
     .withSymbolConfiguration(symbolConfig)
 
 if let symbol {
-    let targetRect = tileRect.insetBy(dx: 150, dy: 150)
+    let targetRect = tileRect.insetBy(dx: 58, dy: 58)
     let symbolSize = symbol.size
     let scale = min(targetRect.width / symbolSize.width, targetRect.height / symbolSize.height)
     let drawSize = NSSize(width: symbolSize.width * scale, height: symbolSize.height * scale)

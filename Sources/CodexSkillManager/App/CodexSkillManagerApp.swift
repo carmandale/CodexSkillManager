@@ -7,17 +7,31 @@ import Sparkle
 
 @main
 struct CodexSkillManagerApp: App {
+    @Environment(\.openWindow) private var openWindow
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @State private var store = SkillStore()
+    @State private var customPathStore: CustomPathStore
+    @State private var store: SkillStore
     @State private var remoteStore = RemoteSkillStore(client: .live())
+
+    init() {
+        let pathStore = CustomPathStore()
+        _customPathStore = State(initialValue: pathStore)
+        _store = State(initialValue: SkillStore(customPathStore: pathStore))
+    }
 
     var body: some Scene {
         WindowGroup("Agent Config Manager") {
             SkillSplitView()
                 .environment(store)
                 .environment(remoteStore)
+                .environment(customPathStore)
         }
         .commands {
+            CommandGroup(replacing: .appInfo) {
+                Button("About Codex Skill Manager") {
+                    openWindow(id: "about")
+                }
+            }
             CommandGroup(after: .appInfo) {
                 Button("Check for Updates…") {
                     appDelegate.checkForUpdates()
@@ -25,6 +39,10 @@ struct CodexSkillManagerApp: App {
                 .keyboardShortcut("u", modifiers: [.command, .option])
             }
         }
+        Window("About Codex Skill Manager", id: "about") {
+            AboutView()
+        }
+        .windowResizability(.contentSize)
     }
 }
 

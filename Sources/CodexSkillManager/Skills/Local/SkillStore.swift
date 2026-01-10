@@ -240,7 +240,7 @@ import Observation
 
     func groupedLocalSkills(from filteredSkills: [Skill]) -> [LocalSkillGroup] {
         let grouped = Dictionary(grouping: filteredSkills, by: { $0.name })
-        let preferredPlatformOrder: [SkillPlatform] = [.codex, .claude, .opencode, .copilot]
+        let preferredPlatformOrder: [SkillPlatform] = [.pi, .codex, .claude, .opencode, .copilot]
 
         return grouped.compactMap { _, filteredSkills in
             guard let preferredSelection = preferredPlatformOrder
@@ -330,7 +330,7 @@ import Observation
         let candidates = skills.filter { $0.name == slug }
         guard candidates.count > 1 else { return }
 
-        let preferredOrder: [SkillPlatform] = [.codex, .claude, .opencode, .copilot]
+        let preferredOrder: [SkillPlatform] = [.pi, .codex, .claude, .opencode, .copilot]
         let preferred = preferredOrder
             .compactMap { platform in candidates.first(where: { $0.platform == platform }) }
             .first ?? candidates.first

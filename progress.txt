@@ -31,3 +31,12 @@ Thread: https://ampcode.com/threads/T-019ba768-4a01-752e-b611-e95cfefb616e
   - `installTargets` is used in two places: SkillSplitView.swift and ImportSkillView.swift
   - Both must be updated together to maintain consistency
 ---
+
+## Sat Jan 10 2026 - US-004
+Thread: https://ampcode.com/threads/T-019ba769-bc17-703b-bf2c-89c0c2fc00df
+- Fixed open folder fallback path to use `SkillPlatform.pi.rootURL` instead of hardcoded Codex path
+- Files changed: Sources/CodexSkillManager/Skills/SkillSplitView.swift
+- **Learnings for future iterations:**
+  - The `openSelectedSkillFolder` function had a hardcoded fallback that needed updating
+  - Using `SkillPlatform.pi.rootURL` is cleaner and follows the existing pattern for platform paths
+---

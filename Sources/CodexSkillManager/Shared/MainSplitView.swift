@@ -17,7 +17,7 @@ struct MainSplitView: View {
     private func contentView(for section: NavigationSection) -> some View {
         switch section {
         case .skills:
-            PlaceholderContentView(title: section.name)
+            SkillsSectionContentView()
         case .extensions:
             PlaceholderContentView(title: section.name)
         case .commands:
@@ -33,7 +33,7 @@ struct MainSplitView: View {
     private func detailView(for section: NavigationSection) -> some View {
         switch section {
         case .skills:
-            PlaceholderDetailView(title: section.name)
+            SkillsSectionDetailView()
         case .extensions:
             PlaceholderDetailView(title: section.name)
         case .commands:

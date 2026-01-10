@@ -184,3 +184,13 @@ Thread: https://ampcode.com/threads/T-019ba77f-7c85-7138-83d9-89e5becc208a
   - Custom Binding pattern works well for set-based toggle states (agentBinding helper)
   - Toggle with .checkbox style gives native macOS checkbox appearance
 ---
+
+## Sat Jan 10 2026 - US-017
+Thread: https://ampcode.com/threads/T-019ba781-02d0-75a9-b0da-043eaf1f6aa6
+- Created PlaceholderContentView.swift and PlaceholderDetailView.swift in Shared/
+- Both views accept String title parameter and display title + "Coming soon"
+- Files changed: Sources/CodexSkillManager/Shared/PlaceholderContentView.swift, Sources/CodexSkillManager/Shared/PlaceholderDetailView.swift
+- **Learnings for future iterations:**
+  - Placeholder views are intentionally minimal; they will be replaced by section-specific views
+  - Both use the same pattern with VStack and centered text styling
+---

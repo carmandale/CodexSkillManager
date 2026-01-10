@@ -142,3 +142,16 @@ Thread: https://ampcode.com/threads/T-019ba77c-2db1-7635-9c54-ea8b8d43ee54
   - URLs are stored as path strings in UserDefaults, converted back on load
   - Class is Sendable for concurrency safety
 ---
+
+## Sat Jan 10 2026 - US-014
+Thread: https://ampcode.com/threads/T-019ba77d-5809-757a-ba75-ad517bf50b19
+- Created NavigationSection enum in Sources/CodexSkillManager/Models/NavigationSection.swift
+- Added cases: skills, extensions, commands, agentsmd, repos
+- Implemented `name` property returning display names (e.g., "AGENTS.md" for agentsmd case)
+- Implemented `symbolName` property with SF Symbols (puzzlepiece.extension, square.stack.3d.up, command, doc.text, folder)
+- Implemented Identifiable protocol with `id` returning rawValue
+- Files changed: Sources/CodexSkillManager/Models/NavigationSection.swift
+- **Learnings for future iterations:**
+  - NavigationSection defines sidebar navigation; future sections can add more cases here
+  - SF Symbol names: puzzlepiece.extension (skills), square.stack.3d.up (extensions), command (commands), doc.text (agentsmd), folder (repos)
+---

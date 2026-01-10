@@ -43,6 +43,7 @@ import Observation
     var detailState: DetailState = .idle
     var referenceState: DetailState = .idle
     var selectedSkillID: Skill.ID?
+    var selectedSource: SkillSource = .local
     var selectedMarkdown: String = ""
     var selectedReferenceID: SkillReference.ID?
     var selectedReferenceMarkdown: String = ""

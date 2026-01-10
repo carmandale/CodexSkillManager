@@ -90,8 +90,11 @@ actor SkillFileWorker {
             return []
         }
 
+        // Resolve symlinks so contentsOfDirectory works properly
+        let resolvedURL = baseURL.resolvingSymlinksInPath()
+
         let items = try fileManager.contentsOfDirectory(
-            at: baseURL,
+            at: resolvedURL,
             includingPropertiesForKeys: [.isDirectoryKey],
             options: [.skipsHiddenFiles]
         )

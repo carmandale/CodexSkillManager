@@ -22,11 +22,11 @@ struct SidebarView: View {
             }
 
             Section("Agents") {
-                Toggle("All Agents", isOn: allAgentsBinding)
+                Toggle("All Agents", isOn: allAgentsBinding(model: model))
                     .toggleStyle(.checkbox)
 
                 ForEach(AgentConfig.all) { config in
-                    Toggle(isOn: agentBinding(for: config.id)) {
+                    Toggle(isOn: agentBinding(for: config.id, model: model)) {
                         HStack(spacing: 6) {
                             Circle()
                                 .fill(config.badgeColor)
@@ -41,28 +41,28 @@ struct SidebarView: View {
         .listStyle(.sidebar)
     }
 
-    private var allAgentsBinding: Binding<Bool> {
+    private func allAgentsBinding(model: AppModel) -> Binding<Bool> {
         Binding(
-            get: { appModel.selectedAgents.isEmpty },
+            get: { model.selectedAgents.isEmpty },
             set: { isAllSelected in
                 if isAllSelected {
-                    appModel.selectedAgents = []
-                    appModel.persistAgentSelection()
+                    model.selectedAgents = []
+                    model.persistAgentSelection()
                 }
             }
         )
     }
 
-    private func agentBinding(for agentID: AgentID) -> Binding<Bool> {
+    private func agentBinding(for agentID: AgentID, model: AppModel) -> Binding<Bool> {
         Binding(
-            get: { appModel.selectedAgents.contains(agentID) },
+            get: { model.selectedAgents.contains(agentID) },
             set: { isSelected in
                 if isSelected {
-                    appModel.selectedAgents.insert(agentID)
+                    model.selectedAgents.insert(agentID)
                 } else {
-                    appModel.selectedAgents.remove(agentID)
+                    model.selectedAgents.remove(agentID)
                 }
-                appModel.persistAgentSelection()
+                model.persistAgentSelection()
             }
         )
     }

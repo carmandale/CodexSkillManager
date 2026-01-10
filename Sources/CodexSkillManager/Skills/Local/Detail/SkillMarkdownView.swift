@@ -21,6 +21,7 @@ struct SkillMarkdownView: View {
     @State private var tags = "latest"
     @State private var bump: PublishBump = .patch
     @State private var publishErrorMessage: String?
+    @State private var showPublishError = false
     @State private var publishedVersion: String?
     @State private var cliStatus = SkillStore.CliStatus(
         isInstalled: false,
@@ -83,10 +84,17 @@ struct SkillMarkdownView: View {
             )
             .environment(store)
         }
-        .alert("Update failed", isPresented: publishErrorBinding) {
-            Button("OK", role: .cancel) {}
+        .alert("Update failed", isPresented: $showPublishError) {
+            Button("OK", role: .cancel) {
+                publishErrorMessage = nil
+            }
         } message: {
             Text(publishErrorMessage ?? "Unable to update this skill.")
+        }
+        .onChange(of: publishErrorMessage) { _, newValue in
+            if newValue != nil {
+                showPublishError = true
+            }
         }
     }
 
@@ -355,14 +363,4 @@ struct SkillMarkdownView: View {
         return "1.0.0"
     }
 
-    private var publishErrorBinding: Binding<Bool> {
-        Binding(
-            get: { publishErrorMessage != nil },
-            set: { newValue in
-                if !newValue {
-                    publishErrorMessage = nil
-                }
-            }
-        )
-    }
 }

@@ -21,3 +21,13 @@ Thread: https://ampcode.com/threads/T-019ba766-4395-72a2-91af-f740deef4d94
   - SkillPlatform enum has 4 computed properties that all need updating when adding a new case: storageKey, rootURL, description, badgeTint
   - Pi Agent case added first in enum to prioritize it in CaseIterable ordering
 ---
+
+## Sat Jan 10 2026 - US-003
+Thread: https://ampcode.com/threads/T-019ba768-4a01-752e-b611-e95cfefb616e
+- Changed default install target from Codex to Pi Agent
+- Updated `installTargets` default from `[.codex]` to `[.pi]` in both files
+- Files changed: SkillSplitView.swift, ImportSkillView.swift
+- **Learnings for future iterations:**
+  - `installTargets` is used in two places: SkillSplitView.swift and ImportSkillView.swift
+  - Both must be updated together to maintain consistency
+---

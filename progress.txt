@@ -105,3 +105,15 @@ Thread: https://ampcode.com/threads/T-019ba76f-ee27-731e-aa36-62307ee198b1
   - SkillPlatform now has 5 computed properties to update when adding cases: storageKey, rootURL, description, badgeTint, agentID
   - AgentID and SkillPlatform have 1:1 mapping by design for cross-section lookups
 ---
+
+## Sat Jan 10 2026 - US-011
+Thread: https://ampcode.com/threads/T-019ba779-9889-764a-abbe-4b9cb9e969da
+- Created AgentConfigPaths.swift with centralized path constants
+- Added static URLs for central config, Pi Agent, Claude, Codex, OpenCode, and Copilot
+- Uses FileManager.default.homeDirectoryForCurrentUser for proper ~ expansion
+- Files changed: Sources/CodexSkillManager/Models/AgentConfigPaths.swift
+- **Learnings for future iterations:**
+  - Use `homeDirectory.appending(path:)` for building paths from home directory
+  - AgentConfigPaths uses an enum (not struct) with static properties since it's a namespace for constants
+  - Paths organized by MARK sections per agent for readability
+---

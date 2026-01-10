@@ -12,6 +12,8 @@ struct CodexSkillManagerApp: App {
     @State private var customPathStore: CustomPathStore
     @State private var store: SkillStore
     @State private var remoteStore = RemoteSkillStore(client: .live())
+    @State private var settings = SettingsStore()
+    @State private var appModel: AppModel?
 
     init() {
         let pathStore = CustomPathStore()
@@ -21,14 +23,30 @@ struct CodexSkillManagerApp: App {
 
     var body: some Scene {
         WindowGroup("Agent Config Manager") {
-            SkillSplitView()
-                .environment(store)
-                .environment(remoteStore)
-                .environment(customPathStore)
+            Group {
+                if let appModel {
+                    MainSplitView()
+                        .environment(appModel)
+                        .environment(appModel.skillStore)
+                        .environment(appModel.remoteSkillStore)
+                        .environment(appModel.settings)
+                        .environment(customPathStore)
+                } else {
+                    ProgressView("Loading...")
+                        .onAppear {
+                            settings.load()
+                            appModel = AppModel(
+                                settings: settings,
+                                skillStore: store,
+                                remoteSkillStore: remoteStore
+                            )
+                        }
+                }
+            }
         }
         .commands {
             CommandGroup(replacing: .appInfo) {
-                Button("About Codex Skill Manager") {
+                Button("About Agent Config Manager") {
                     openWindow(id: "about")
                 }
             }
@@ -39,7 +57,7 @@ struct CodexSkillManagerApp: App {
                 .keyboardShortcut("u", modifiers: [.command, .option])
             }
         }
-        Window("About Codex Skill Manager", id: "about") {
+        Window("About Agent Config Manager", id: "about") {
             AboutView()
         }
         .windowResizability(.contentSize)

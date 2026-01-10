@@ -117,3 +117,16 @@ Thread: https://ampcode.com/threads/T-019ba779-9889-764a-abbe-4b9cb9e969da
   - AgentConfigPaths uses an enum (not struct) with static properties since it's a namespace for constants
   - Paths organized by MARK sections per agent for readability
 ---
+
+## Sat Jan 10 2026 - US-012
+Thread: https://ampcode.com/threads/T-019ba77a-bff7-730f-9881-62846865df9c
+- Created AgentConfig.swift with struct implementing Identifiable, Hashable, Sendable
+- Added properties: id (AgentID), displayName, badgeColor, skillsURL?, extensionsURL?, commandsURL?, agentsMarkdownURL?
+- Created static `all` array with all 5 agents (Pi, Claude, Codex, OpenCode, Copilot)
+- Added `skillPlatform` computed property mapping AgentID to SkillPlatform
+- Files changed: Sources/CodexSkillManager/Models/AgentConfig.swift
+- **Learnings for future iterations:**
+  - AgentConfig uses AgentConfigPaths for all URL properties to maintain single source of truth
+  - Badge colors match those in SkillPlatform.badgeTint for consistency
+  - Only Pi Agent has extensionsURL; others are nil (can be extended later)
+---

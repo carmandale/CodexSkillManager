@@ -95,3 +95,13 @@ Thread: https://ampcode.com/threads/T-019ba76f-1232-76b6-9c43-465c3523f860
   - Models directory created in US-008, now populated with first model
   - AgentID will be used for cross-section lookups and agent filtering
 ---
+
+## Sat Jan 10 2026 - US-010
+Thread: https://ampcode.com/threads/T-019ba76f-ee27-731e-aa36-62307ee198b1
+- Added `var agentID: AgentID` computed property to SkillPlatform enum
+- Maps each platform case to the corresponding AgentID case
+- Files changed: Sources/CodexSkillManager/Skills/Shared/SkillPlatform.swift
+- **Learnings for future iterations:**
+  - SkillPlatform now has 5 computed properties to update when adding cases: storageKey, rootURL, description, badgeTint, agentID
+  - AgentID and SkillPlatform have 1:1 mapping by design for cross-section lookups
+---

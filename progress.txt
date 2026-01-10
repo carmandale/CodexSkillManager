@@ -74,3 +74,13 @@ Thread: https://ampcode.com/threads/T-019ba76c-7dfe-74b8-897b-266e78cbe931
   - Publish state is stored per-skill as JSON files in `~/Library/Application Support/<AppFolder>/skill-state/<slug>.json`
   - The migration pattern (check new location, fallback to old) is a clean approach for folder renames
 ---
+
+## Sat Jan 10 2026 - US-008
+Thread: https://ampcode.com/threads/T-019ba76d-c8fe-77c4-bd21-2e0b8dcb0377
+- Created Models/ and Shared/ directories (Extensions/, Repos/, Workers/ already existed)
+- Added .gitkeep files to preserve empty directories in git
+- Files changed: Sources/CodexSkillManager/Models/.gitkeep, Sources/CodexSkillManager/Shared/.gitkeep
+- **Learnings for future iterations:**
+  - Use .gitkeep files to preserve empty directories in git
+  - Extensions/, Repos/, Workers/ were already created in previous work
+---

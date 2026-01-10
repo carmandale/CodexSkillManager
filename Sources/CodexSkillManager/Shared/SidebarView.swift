@@ -4,17 +4,16 @@ struct SidebarView: View {
     @Environment(AppModel.self) private var appModel
 
     var body: some View {
-        @Bindable var model = appModel
         List {
             Section("Sections") {
                 ForEach(NavigationSection.allCases) { section in
                     Label(section.name, systemImage: section.symbolName)
                         .tag(section)
                         .onTapGesture {
-                            model.selectedSection = section
+                            appModel.selectedSection = section
                         }
                         .listRowBackground(
-                            model.selectedSection == section
+                            appModel.selectedSection == section
                                 ? Color.accentColor.opacity(0.2)
                                 : Color.clear
                         )
@@ -22,48 +21,56 @@ struct SidebarView: View {
             }
 
             Section("Agents") {
-                Toggle("All Agents", isOn: allAgentsBinding(model: model))
-                    .toggleStyle(.checkbox)
+                AgentToggleRow(
+                    label: "All Agents",
+                    isOn: appModel.selectedAgents.isEmpty,
+                    onToggle: {
+                        appModel.selectedAgents = []
+                        appModel.persistAgentSelection()
+                    }
+                )
 
                 ForEach(AgentConfig.all) { config in
-                    Toggle(isOn: agentBinding(for: config.id, model: model)) {
-                        HStack(spacing: 6) {
-                            Circle()
-                                .fill(config.badgeColor)
-                                .frame(width: 8, height: 8)
-                            Text(config.displayName)
+                    AgentToggleRow(
+                        label: config.displayName,
+                        badgeColor: config.badgeColor,
+                        isOn: appModel.selectedAgents.contains(config.id),
+                        onToggle: {
+                            if appModel.selectedAgents.contains(config.id) {
+                                appModel.selectedAgents.remove(config.id)
+                            } else {
+                                appModel.selectedAgents.insert(config.id)
+                            }
+                            appModel.persistAgentSelection()
                         }
-                    }
-                    .toggleStyle(.checkbox)
+                    )
                 }
             }
         }
         .listStyle(.sidebar)
     }
+}
 
-    private func allAgentsBinding(model: AppModel) -> Binding<Bool> {
-        Binding(
-            get: { model.selectedAgents.isEmpty },
-            set: { isAllSelected in
-                if isAllSelected {
-                    model.selectedAgents = []
-                    model.persistAgentSelection()
-                }
-            }
-        )
-    }
+private struct AgentToggleRow: View {
+    let label: String
+    var badgeColor: Color? = nil
+    let isOn: Bool
+    let onToggle: () -> Void
 
-    private func agentBinding(for agentID: AgentID, model: AppModel) -> Binding<Bool> {
-        Binding(
-            get: { model.selectedAgents.contains(agentID) },
-            set: { isSelected in
-                if isSelected {
-                    model.selectedAgents.insert(agentID)
-                } else {
-                    model.selectedAgents.remove(agentID)
+    var body: some View {
+        Button(action: onToggle) {
+            HStack {
+                if let badgeColor {
+                    Circle()
+                        .fill(badgeColor)
+                        .frame(width: 8, height: 8)
                 }
-                model.persistAgentSelection()
+                Text(label)
+                Spacer()
+                Image(systemName: isOn ? "checkmark.square.fill" : "square")
+                    .foregroundColor(isOn ? .accentColor : .secondary)
             }
-        )
+        }
+        .buttonStyle(.plain)
     }
 }

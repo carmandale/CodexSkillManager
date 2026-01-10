@@ -6,6 +6,7 @@ struct SkillsSectionDetailView: View {
     @Environment(RemoteSkillStore.self) private var remoteStore
 
     @State private var downloadErrorMessage: String?
+    @State private var showDownloadError = false
     @State private var isDownloadingRemote = false
     @State private var didDownloadRemote = false
     @State private var installSkill: RemoteSkill?
@@ -15,17 +16,6 @@ struct SkillsSectionDetailView: View {
         guard let skill = remoteStore.selectedSkill else { return false }
         let installedTargets = store.installedPlatforms(for: skill.slug)
         return installedTargets != Set(SkillPlatform.allCases)
-    }
-
-    private var downloadErrorBinding: Binding<Bool> {
-        Binding(
-            get: { downloadErrorMessage != nil },
-            set: { newValue in
-                if !newValue {
-                    downloadErrorMessage = nil
-                }
-            }
-        )
     }
 
     private var installedPlatformsForSelected: Set<SkillPlatform> {
@@ -54,10 +44,17 @@ struct SkillsSectionDetailView: View {
                 .environment(store)
                 .environment(remoteStore)
             }
-            .alert("Download failed", isPresented: downloadErrorBinding) {
-                Button("OK", role: .cancel) {}
+            .alert("Download failed", isPresented: $showDownloadError) {
+                Button("OK", role: .cancel) {
+                    downloadErrorMessage = nil
+                }
             } message: {
                 Text(downloadErrorMessage ?? "Unable to download this skill.")
+            }
+            .onChange(of: downloadErrorMessage) { _, newValue in
+                if newValue != nil {
+                    showDownloadError = true
+                }
             }
     }
 

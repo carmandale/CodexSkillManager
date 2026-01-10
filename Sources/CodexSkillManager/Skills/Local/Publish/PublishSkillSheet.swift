@@ -13,6 +13,7 @@ struct PublishSkillSheet: View {
 
     @State private var isPublishing = false
     @State private var errorMessage: String?
+    @State private var showError = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -65,10 +66,17 @@ struct PublishSkillSheet: View {
         }
         .padding(24)
         .frame(minWidth: 420, minHeight: 360)
-        .alert("Publish failed", isPresented: errorBinding) {
-            Button("OK", role: .cancel) {}
+        .alert("Publish failed", isPresented: $showError) {
+            Button("OK", role: .cancel) {
+                errorMessage = nil
+            }
         } message: {
             Text(errorMessage ?? "Unable to publish this skill.")
+        }
+        .onChange(of: errorMessage) { _, newValue in
+            if newValue != nil {
+                showError = true
+            }
         }
     }
 
@@ -91,16 +99,5 @@ struct PublishSkillSheet: View {
             errorMessage = error.localizedDescription
         }
         isPublishing = false
-    }
-
-    private var errorBinding: Binding<Bool> {
-        Binding(
-            get: { errorMessage != nil },
-            set: { newValue in
-                if !newValue {
-                    errorMessage = nil
-                }
-            }
-        )
     }
 }

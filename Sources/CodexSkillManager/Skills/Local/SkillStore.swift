@@ -343,11 +343,22 @@ import Observation
         return false
     }
 
+    private static let legacyAppSupportFolderName = "CodexSkillManager"
+    private static let currentAppSupportFolderName = "AgentConfigManager"
+
     private func publishStateDirectory() -> URL {
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
             .first ?? FileManager.default.homeDirectoryForCurrentUser
         return base
-            .appendingPathComponent("CodexSkillManager")
+            .appendingPathComponent(Self.currentAppSupportFolderName)
+            .appendingPathComponent("skill-state")
+    }
+
+    private func legacyPublishStateDirectory() -> URL {
+        let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
+            .first ?? FileManager.default.homeDirectoryForCurrentUser
+        return base
+            .appendingPathComponent(Self.legacyAppSupportFolderName)
             .appendingPathComponent("skill-state")
     }
 
@@ -355,9 +366,17 @@ import Observation
         publishStateDirectory().appendingPathComponent("\(slug).json")
     }
 
+    private func legacyPublishStateURL(for slug: String) -> URL {
+        legacyPublishStateDirectory().appendingPathComponent("\(slug).json")
+    }
+
     private func loadPublishState(for slug: String) -> PublishState? {
-        let url = publishStateURL(for: slug)
-        guard let data = try? Data(contentsOf: url) else { return nil }
+        let currentURL = publishStateURL(for: slug)
+        if let data = try? Data(contentsOf: currentURL) {
+            return try? JSONDecoder().decode(PublishState.self, from: data)
+        }
+        let legacyURL = legacyPublishStateURL(for: slug)
+        guard let data = try? Data(contentsOf: legacyURL) else { return nil }
         return try? JSONDecoder().decode(PublishState.self, from: data)
     }
 

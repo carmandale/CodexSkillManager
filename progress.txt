@@ -50,3 +50,13 @@ Thread: https://ampcode.com/threads/T-019ba76a-9ea5-7519-ba2f-cd5610f533f0
   - There are two separate `preferredOrder` arrays in SkillStore.swift (lines 193 and 270) - both must be updated together
   - `preferredPlatformOrder` is used for grouping local skills, while `preferredOrder` is used for normalizing selection
 ---
+
+## Sat Jan 10 2026 - US-006
+Thread: https://ampcode.com/threads/T-019ba76b-a762-74fe-9e02-18aaa9855185
+- Renamed app window title from "Codex Skill Manager" to "Agent Config Manager"
+- Updated WindowGroup title in CodexSkillManagerApp.swift
+- Files changed: Sources/CodexSkillManager/App/CodexSkillManagerApp.swift
+- **Learnings for future iterations:**
+  - Window title is set via the WindowGroup initializer string parameter on line 15
+  - Simple one-line change, no other references to update
+---

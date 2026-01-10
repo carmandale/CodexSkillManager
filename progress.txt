@@ -169,3 +169,18 @@ Thread: https://ampcode.com/threads/T-019ba77e-4e8d-744e-b459-9814ad10362c
   - It owns the stores but doesn't create them (dependency injection from app entry point)
   - persistAgentSelection() pattern: copy to settings then save()
 ---
+
+## Sat Jan 10 2026 - US-016
+Thread: https://ampcode.com/threads/T-019ba77f-7c85-7138-83d9-89e5becc208a
+- Created SidebarView.swift in Sources/CodexSkillManager/Shared/
+- Displays all NavigationSection cases with icons using Label and onTapGesture for selection
+- Shows agent filter toggles for each agent from AgentConfig.all with colored badge circles
+- Added "All Agents" toggle that clears selectedAgents set (allAgentsBinding)
+- Uses @Bindable pattern for @Observable model binding
+- Calls persistAgentSelection() on all toggle changes
+- Files changed: Sources/CodexSkillManager/Shared/SidebarView.swift
+- **Learnings for future iterations:**
+  - Use `@Bindable var model = appModel` pattern to get bindings from @Observable types
+  - Custom Binding pattern works well for set-based toggle states (agentBinding helper)
+  - Toggle with .checkbox style gives native macOS checkbox appearance
+---

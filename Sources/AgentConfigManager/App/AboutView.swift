@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AboutView: View {
     private let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
-        ?? "Codex Skill Manager"
+        ?? "Agent Config Manager"
     private let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         ?? "1.0"
     private let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
@@ -22,7 +22,7 @@ struct AboutView: View {
                     Text("Version \(version) (\(build))")
                         .font(.system(size: 13, weight: .medium))
                         .foregroundStyle(.secondary)
-                    Text("Built for Codex and your other agents to manage and inspect skills on your Mac.")
+                    Text("Manage skills, extensions, and configurations for your AI coding agents.")
                         .font(.system(size: 13))
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)

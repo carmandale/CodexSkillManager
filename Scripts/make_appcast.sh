@@ -67,8 +67,8 @@ html = "\n".join([
 ])
 out_path.write_text(html)
 PY
-elif [[ -f "/tmp/codexskillmanager-release-notes-${VERSION}.md" ]]; then
-  python3 - <<'PY' "/tmp/codexskillmanager-release-notes-${VERSION}.md" "$NOTES_HTML" "$ZIP_BASE"
+elif [[ -f "/tmp/agentconfigmanager-release-notes-${VERSION}.md" ]]; then
+  python3 - <<'PY' "/tmp/agentconfigmanager-release-notes-${VERSION}.md" "$NOTES_HTML" "$ZIP_BASE"
 import sys
 from pathlib import Path
 

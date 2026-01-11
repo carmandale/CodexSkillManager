@@ -3,6 +3,7 @@ import SwiftUI
 
 struct AgentsMdDetailView: View {
     @Environment(AgentsMdStore.self) private var store
+    @Environment(AppModel.self) private var appModel
     @State private var errorMessage: String?
     @State private var showingError = false
 
@@ -187,6 +188,15 @@ struct AgentsMdDetailView: View {
             }
             .labelStyle(.iconOnly)
             .help("Open ~/.agent-config in Finder")
+        }
+
+        ToolbarItem(id: "setup-wizard") {
+            Button {
+                appModel.showSymlinkWizard = true
+            } label: {
+                Label("Setup Wizard", systemImage: "wand.and.stars")
+            }
+            .help("Open Symlink Setup Wizard")
         }
     }
 

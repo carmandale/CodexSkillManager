@@ -39,6 +39,22 @@ struct CodexSkillManagerApp: App {
                         .environment(appModel.repoStore)
                         .environment(appModel.settings)
                         .environment(customPathStore)
+                        .sheet(isPresented: Binding(
+                            get: { appModel.showMigrationWizard },
+                            set: { appModel.showMigrationWizard = $0 }
+                        )) {
+                            MigrationWizardView(onComplete: appModel.onMigrationComplete)
+                        }
+                        .sheet(isPresented: Binding(
+                            get: { appModel.showSymlinkWizard },
+                            set: { appModel.showSymlinkWizard = $0 }
+                        )) {
+                            SymlinkWizardView()
+                                .environment(appModel.agentsMdStore)
+                        }
+                        .task {
+                            await appModel.checkMigrationOnStartup()
+                        }
                 } else {
                     ProgressView("Loading...")
                         .onAppear {

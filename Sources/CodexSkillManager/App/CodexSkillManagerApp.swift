@@ -16,6 +16,7 @@ struct CodexSkillManagerApp: App {
     @State private var commandStore = CommandStore()
     @State private var agentsMdStore = AgentsMdStore()
     @State private var settings = SettingsStore()
+    @State private var repoStore: RepoStore?
     @State private var appModel: AppModel?
 
     init() {
@@ -35,19 +36,23 @@ struct CodexSkillManagerApp: App {
                         .environment(appModel.extensionStore)
                         .environment(appModel.commandStore)
                         .environment(appModel.agentsMdStore)
+                        .environment(appModel.repoStore)
                         .environment(appModel.settings)
                         .environment(customPathStore)
                 } else {
                     ProgressView("Loading...")
                         .onAppear {
                             settings.load()
+                            let repo = RepoStore(settings: settings)
+                            repoStore = repo
                             appModel = AppModel(
                                 settings: settings,
                                 skillStore: store,
                                 remoteSkillStore: remoteStore,
                                 extensionStore: extensionStore,
                                 commandStore: commandStore,
-                                agentsMdStore: agentsMdStore
+                                agentsMdStore: agentsMdStore,
+                                repoStore: repo
                             )
                         }
                 }

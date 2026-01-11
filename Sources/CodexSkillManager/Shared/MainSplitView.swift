@@ -25,7 +25,7 @@ struct MainSplitView: View {
         case .agentsmd:
             AgentsMdContentView()
         case .repos:
-            PlaceholderContentView(title: section.name)
+            ReposContentView()
         }
     }
 
@@ -41,7 +41,7 @@ struct MainSplitView: View {
         case .agentsmd:
             AgentsMdDetailView()
         case .repos:
-            PlaceholderDetailView(title: section.name)
+            ReposDetailView()
         }
     }
 }

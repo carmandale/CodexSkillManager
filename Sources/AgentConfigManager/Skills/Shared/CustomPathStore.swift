@@ -50,10 +50,19 @@ enum CustomPathError: LocalizedError {
 
     // MARK: - Persistence
 
+    private static let legacyAppSupportFolderName = "CodexSkillManager"
+    private static let currentAppSupportFolderName = "AgentConfigManager"
+
     private func configDirectory() -> URL {
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
             .first ?? FileManager.default.homeDirectoryForCurrentUser
-        return base.appendingPathComponent("CodexSkillManager")
+        return base.appendingPathComponent(Self.currentAppSupportFolderName)
+    }
+
+    private func legacyConfigDirectory() -> URL {
+        let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
+            .first ?? FileManager.default.homeDirectoryForCurrentUser
+        return base.appendingPathComponent(Self.legacyAppSupportFolderName)
     }
 
     private func configURL() -> URL {
@@ -62,11 +71,19 @@ enum CustomPathError: LocalizedError {
 
     private func loadPaths() {
         let url = configURL()
-        guard let data = try? Data(contentsOf: url) else {
-            customPaths = []
+        if let data = try? Data(contentsOf: url) {
+            customPaths = (try? JSONDecoder().decode([CustomSkillPath].self, from: data)) ?? []
             return
         }
-        customPaths = (try? JSONDecoder().decode([CustomSkillPath].self, from: data)) ?? []
+        // Try legacy location
+        let legacyURL = legacyConfigDirectory().appendingPathComponent("custom-paths.json")
+        if let data = try? Data(contentsOf: legacyURL) {
+            customPaths = (try? JSONDecoder().decode([CustomSkillPath].self, from: data)) ?? []
+            // Migrate to new location
+            savePaths()
+            return
+        }
+        customPaths = []
     }
 
     private func savePaths() {

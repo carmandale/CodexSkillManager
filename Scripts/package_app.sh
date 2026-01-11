@@ -5,7 +5,7 @@ CONF=${1:-release}
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 cd "$ROOT"
 
-APP_NAME=${APP_NAME:-CodexSkillManager}
+APP_NAME=${APP_NAME:-AgentConfigManager}
 BUNDLE_ID=${BUNDLE_ID:-com.dimillian.codexskillmanager}
 MACOS_MIN_VERSION=${MACOS_MIN_VERSION:-26.0}
 MENU_BAR_APP=${MENU_BAR_APP:-0}

@@ -1,18 +1,24 @@
-# Codex Skill Manager
+# Agent Config Manager
 
 ![image](image.png)
 
-Codex Skill Manager is a macOS SwiftUI app built with SwiftPM (no Xcode project). It manages local skills for Codex and Claude Code, renders each `SKILL.md`, and lets you browse remote skills from Clawdhub.
+Agent Config Manager is a macOS SwiftUI app built with SwiftPM (no Xcode project). It manages local skills, extensions, commands, and AGENTS.md files for multiple AI coding agents including Pi Agent, Claude Code, Codex, OpenCode, and Copilot.
 
 ## Features
-- Browse local skills from `~/.codex/skills/public` and `~/.claude/skills`
+- Browse local skills from multiple agents (`~/.pi/agent/skills`, `~/.codex/skills/public`, `~/.claude/skills`, etc.)
+- Browse Pi Agent extensions from `~/.pi/agent/extensions`
+- Browse commands from `~/.agent-config/commands`
+- Manage AGENTS.md symlinks across agents
+- Scan repositories for agent configurations
 - Render `SKILL.md` with Markdown, plus inline reference previews
 - Import skills from a folder or zip
 - Delete skills from the sidebar
 - Browse Clawdhub skills with search + latest drops
-- Download remote skills into Codex and/or Claude Code
-- Show Clawdhub author info in the detail view
-- Visual tags for installed status (Codex/Claude) and versions
+- Download remote skills to selected agent platforms
+- Visual tags for installed status and versions
+- Agent filter to focus on specific platforms
+- Migration wizard for importing legacy configs
+- Symlink wizard for setting up central AGENTS.md
 
 ## Requirements
 - macOS 26+
@@ -21,7 +27,7 @@ Codex Skill Manager is a macOS SwiftUI app built with SwiftPM (no Xcode project)
 ## Build and run
 ```
 swift build
-swift run CodexSkillManager
+swift run AgentConfigManager
 ```
 
 ## Package a local app

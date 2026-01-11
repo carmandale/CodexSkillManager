@@ -8,6 +8,14 @@ enum AgentConfigPaths {
     static let centralRootURL = homeDirectory.appending(path: ".agent-config")
     static let centralAgentsMarkdownURL = centralRootURL.appending(path: "AGENTS.md")
     static let centralCommandsURL = centralRootURL.appending(path: "commands")
+    static let centralKnowledgeURL = centralRootURL.appending(path: "knowledge")
+
+    // MARK: - Legacy OpenCode Config (migration source)
+
+    static let legacyOpencodeConfigURL = homeDirectory.appending(path: "opencode-config")
+    static let legacyOpencodeAgentsMarkdownURL = legacyOpencodeConfigURL.appending(path: "AGENTS.md")
+    static let legacyOpencodeCommandsURL = legacyOpencodeConfigURL.appending(path: "commands")
+    static let legacyOpencodeKnowledgeURL = legacyOpencodeConfigURL.appending(path: "knowledge")
 
     // MARK: - Pi Agent
 

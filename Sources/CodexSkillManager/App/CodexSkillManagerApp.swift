@@ -13,6 +13,7 @@ struct CodexSkillManagerApp: App {
     @State private var store: SkillStore
     @State private var remoteStore = RemoteSkillStore(client: .live())
     @State private var extensionStore = ExtensionStore()
+    @State private var commandStore = CommandStore()
     @State private var settings = SettingsStore()
     @State private var appModel: AppModel?
 
@@ -31,6 +32,7 @@ struct CodexSkillManagerApp: App {
                         .environment(appModel.skillStore)
                         .environment(appModel.remoteSkillStore)
                         .environment(appModel.extensionStore)
+                        .environment(appModel.commandStore)
                         .environment(appModel.settings)
                         .environment(customPathStore)
                 } else {
@@ -41,7 +43,8 @@ struct CodexSkillManagerApp: App {
                                 settings: settings,
                                 skillStore: store,
                                 remoteSkillStore: remoteStore,
-                                extensionStore: extensionStore
+                                extensionStore: extensionStore,
+                                commandStore: commandStore
                             )
                         }
                 }

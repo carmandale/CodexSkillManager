@@ -14,6 +14,16 @@ AgentConfigManager is a macOS SwiftUI app built with SwiftPM (no Xcode project) 
 - Run: `swift run AgentConfigManager`
 When editing this app, build after each change and fix any compile errors before continuing.
 
+## Git workflow
+This is a fork of `Dimillian/CodexSkillManager`. Remotes:
+- `origin` → upstream (Dimillian's repo) - **do not push here**
+- `fork` → carmandale's fork - **push here by default**
+
+Always push to `fork` unless explicitly instructed to push upstream:
+```bash
+git push fork <branch>
+```
+
 ## Packaging and release
 Use the `macos-spm-app-packaging` skill for packaging, notarization, appcast, and GitHub release steps.
 Local packaging helpers live in `Scripts/`:

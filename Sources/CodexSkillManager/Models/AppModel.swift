@@ -12,19 +12,22 @@ final class AppModel {
     let remoteSkillStore: RemoteSkillStore
     let extensionStore: ExtensionStore
     let commandStore: CommandStore
+    let agentsMdStore: AgentsMdStore
 
     init(
         settings: SettingsStore,
         skillStore: SkillStore,
         remoteSkillStore: RemoteSkillStore,
         extensionStore: ExtensionStore,
-        commandStore: CommandStore
+        commandStore: CommandStore,
+        agentsMdStore: AgentsMdStore
     ) {
         self.settings = settings
         self.skillStore = skillStore
         self.remoteSkillStore = remoteSkillStore
         self.extensionStore = extensionStore
         self.commandStore = commandStore
+        self.agentsMdStore = agentsMdStore
         self.selectedAgents = settings.selectedAgents
     }
 

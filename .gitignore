@@ -1,3 +1,5 @@
 /.build
 /CodexSkillManager.app
+/AgentConfigManager.app
 *.zip
+.claude/

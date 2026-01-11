@@ -23,7 +23,7 @@ struct MainSplitView: View {
         case .commands:
             CommandsContentView()
         case .agentsmd:
-            PlaceholderContentView(title: section.name)
+            AgentsMdContentView()
         case .repos:
             PlaceholderContentView(title: section.name)
         }
@@ -39,7 +39,7 @@ struct MainSplitView: View {
         case .commands:
             CommandsDetailView()
         case .agentsmd:
-            PlaceholderDetailView(title: section.name)
+            AgentsMdDetailView()
         case .repos:
             PlaceholderDetailView(title: section.name)
         }

@@ -18,14 +18,15 @@ struct CommandsContentView: View {
     }
 
     var body: some View {
-        @Bindable var store = store
-
-        List(selection: $store.selectedCommandID) {
+        List {
             ForEach(CommandSource.allCases) { source in
                 if let commands = groupedCommands[source], !commands.isEmpty {
                     Section(source.displayName) {
                         ForEach(commands) { command in
-                            CommandRowView(command: command)
+                            CommandRowView(command: command, isSelected: store.selectedCommandID == command.id)
+                                .onTapGesture {
+                                    store.selectedCommandID = command.id
+                                }
                         }
                     }
                 }
@@ -48,6 +49,7 @@ struct CommandsContentView: View {
 
 private struct CommandRowView: View {
     let command: Command
+    let isSelected: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
@@ -60,5 +62,8 @@ private struct CommandRowView: View {
                 .lineLimit(1)
         }
         .tag(command.id)
+        .listRowBackground(
+            isSelected ? Color.accentColor.opacity(0.2) : Color.clear
+        )
     }
 }

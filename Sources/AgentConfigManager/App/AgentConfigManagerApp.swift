@@ -29,32 +29,7 @@ struct AgentConfigManagerApp: App {
         WindowGroup("Agent Config Manager") {
             Group {
                 if let appModel {
-                    MainSplitView()
-                        .environment(appModel)
-                        .environment(appModel.skillStore)
-                        .environment(appModel.remoteSkillStore)
-                        .environment(appModel.extensionStore)
-                        .environment(appModel.commandStore)
-                        .environment(appModel.agentsMdStore)
-                        .environment(appModel.repoStore)
-                        .environment(appModel.settings)
-                        .environment(customPathStore)
-                        .sheet(isPresented: Binding(
-                            get: { appModel.showMigrationWizard },
-                            set: { appModel.showMigrationWizard = $0 }
-                        )) {
-                            MigrationWizardView(onComplete: appModel.onMigrationComplete)
-                        }
-                        .sheet(isPresented: Binding(
-                            get: { appModel.showSymlinkWizard },
-                            set: { appModel.showSymlinkWizard = $0 }
-                        )) {
-                            SymlinkWizardView()
-                                .environment(appModel.agentsMdStore)
-                        }
-                        .task {
-                            await appModel.checkMigrationOnStartup()
-                        }
+                    MainContentView(appModel: appModel, customPathStore: customPathStore)
                 } else {
                     ProgressView("Loading...")
                         .onAppear {
@@ -91,6 +66,34 @@ struct AgentConfigManagerApp: App {
             AboutView()
         }
         .windowResizability(.contentSize)
+    }
+}
+
+private struct MainContentView: View {
+    @Bindable var appModel: AppModel
+    let customPathStore: CustomPathStore
+
+    var body: some View {
+        MainSplitView()
+            .environment(appModel)
+            .environment(appModel.skillStore)
+            .environment(appModel.remoteSkillStore)
+            .environment(appModel.extensionStore)
+            .environment(appModel.commandStore)
+            .environment(appModel.agentsMdStore)
+            .environment(appModel.repoStore)
+            .environment(appModel.settings)
+            .environment(customPathStore)
+            .sheet(isPresented: $appModel.showMigrationWizard) {
+                MigrationWizardView(onComplete: appModel.onMigrationComplete)
+            }
+            .sheet(isPresented: $appModel.showSymlinkWizard) {
+                SymlinkWizardView()
+                    .environment(appModel.agentsMdStore)
+            }
+            .task {
+                await appModel.checkMigrationOnStartup()
+            }
     }
 }
 

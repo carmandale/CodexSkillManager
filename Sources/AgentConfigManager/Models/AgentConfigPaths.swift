@@ -29,6 +29,8 @@ enum AgentConfigPaths {
 
     static let claudeRootURL = homeDirectory.appending(path: ".claude")
     static let claudeSkillsURL = claudeRootURL.appending(path: "skills")
+    static let claudePluginsURL = claudeRootURL.appending(path: "plugins")
+    static let claudeHooksURL = claudeRootURL.appending(path: "hooks")
     static let claudeCommandsURL = claudeRootURL.appending(path: "commands")
     static let claudeAgentsMarkdownURL = claudeRootURL.appending(path: "AGENTS.md")
 
@@ -36,12 +38,15 @@ enum AgentConfigPaths {
 
     static let codexRootURL = homeDirectory.appending(path: ".codex")
     static let codexSkillsURL = codexRootURL.appending(path: "skills/public")
+    static let codexPromptsURL = codexRootURL.appending(path: "prompts")
     static let codexAgentsMarkdownURL = codexRootURL.appending(path: "AGENTS.md")
 
     // MARK: - OpenCode
 
     static let opencodeRootURL = homeDirectory.appending(path: ".opencode")
     static let opencodeSkillsURL = opencodeRootURL.appending(path: "skills")
+    static let opencodePluginsURL = opencodeRootURL.appending(path: "plugins")
+    static let opencodeCommandsURL = opencodeRootURL.appending(path: "commands")
     static let opencodeAgentsMarkdownURL = opencodeRootURL.appending(path: "AGENTS.md")
 
     // MARK: - Copilot

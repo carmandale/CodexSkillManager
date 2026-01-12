@@ -27,6 +27,10 @@ struct SidebarView: View {
             }
         }
         .listStyle(.sidebar)
+        .onChange(of: appModel.selectedSection) { _, _ in
+            // Clear agent selection when switching sections
+            appModel.selectedAgentForDetail = nil
+        }
         .task {
             await agentStatus.load()
         }

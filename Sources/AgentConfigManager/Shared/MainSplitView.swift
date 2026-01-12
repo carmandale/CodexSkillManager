@@ -4,27 +4,17 @@ struct MainSplitView: View {
     @Environment(AppModel.self) private var appModel
 
     var body: some View {
-        @Bindable var appModel = appModel
-
         NavigationSplitView {
             SidebarView()
         } content: {
             contentView(for: appModel.selectedSection)
         } detail: {
-            detailView(for: appModel.selectedSection)
-        }
-        .sheet(item: $appModel.selectedAgentForDetail) { agentID in
-            if let config = AgentConfig.config(for: agentID) {
-                NavigationStack {
-                    AgentDetailView(agent: config)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Done") {
-                                    appModel.selectedAgentForDetail = nil
-                                }
-                            }
-                        }
-                }
+            // Show agent detail if selected, otherwise show section detail
+            if let agentID = appModel.selectedAgentForDetail,
+               let config = AgentConfig.config(for: agentID) {
+                AgentDetailView(agent: config)
+            } else {
+                detailView(for: appModel.selectedSection)
             }
         }
     }

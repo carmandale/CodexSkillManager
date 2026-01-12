@@ -5,7 +5,7 @@ import Observation
 @MainActor
 final class AppModel {
     var selectedSection: NavigationSection = .skills
-    var selectedAgents: Set<AgentID> = []
+    var selectedAgentForDetail: AgentID? = nil
 
     // Wizard presentation states
     var showMigrationWizard = false
@@ -38,7 +38,6 @@ final class AppModel {
         self.commandStore = commandStore
         self.agentsMdStore = agentsMdStore
         self.repoStore = repoStore
-        self.selectedAgents = settings.selectedAgents
 
         // Initialize migration worker with paths resolved at @MainActor context
         self.migrationWorker = MigrationWorker(
@@ -54,10 +53,6 @@ final class AppModel {
         )
     }
 
-    func persistAgentSelection() {
-        settings.selectedAgents = selectedAgents
-        settings.save()
-    }
 
     /// Check if migration is needed and show wizard if so
     func checkMigrationOnStartup() async {

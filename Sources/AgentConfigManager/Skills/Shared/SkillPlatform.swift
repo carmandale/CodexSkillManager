@@ -5,7 +5,7 @@ enum SkillPlatform: String, CaseIterable, Identifiable, Hashable, Sendable, Coda
     case codex = "Codex"
     case claude = "Claude Code"
     case opencode = "OpenCode"
-    case copilot = "GitHub Copilot"
+    // REMOVED: case copilot
 
     var id: String { rawValue }
 
@@ -19,8 +19,6 @@ enum SkillPlatform: String, CaseIterable, Identifiable, Hashable, Sendable, Coda
             return "claude"
         case .opencode:
             return "opencode"
-        case .copilot:
-            return "copilot"
         }
     }
 
@@ -30,13 +28,11 @@ enum SkillPlatform: String, CaseIterable, Identifiable, Hashable, Sendable, Coda
         case .pi:
             return ".pi/agent/skills"
         case .codex:
-            return ".codex/skills/public"
+            return ".codex/skills"  // FIXED: was .codex/skills/public
         case .claude:
             return ".claude/skills"
         case .opencode:
-            return ".config/opencode/skill"
-        case .copilot:
-            return ".copilot/skills"
+            return ".config/opencode/skill"  // FIXED: singular (was .opencode/skills)
         }
     }
 
@@ -64,8 +60,6 @@ enum SkillPlatform: String, CaseIterable, Identifiable, Hashable, Sendable, Coda
             return Color(red: 217.0 / 255.0, green: 119.0 / 255.0, blue: 87.0 / 255.0)
         case .opencode:
             return Color(red: 76.0 / 255.0, green: 144.0 / 255.0, blue: 226.0 / 255.0)
-        case .copilot:
-            return Color(red: 77.0 / 255.0, green: 212.0 / 255.0, blue: 212.0 / 255.0)
         }
     }
 
@@ -79,8 +73,6 @@ enum SkillPlatform: String, CaseIterable, Identifiable, Hashable, Sendable, Coda
             return .claude
         case .opencode:
             return .opencode
-        case .copilot:
-            return .copilot
         }
     }
 }

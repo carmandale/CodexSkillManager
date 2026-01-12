@@ -46,7 +46,7 @@ import Observation
 
         // Gather agent locations from configs
         let locations: [SymlinkWorker.AgentMarkdownLocation] = AgentConfig.all.compactMap { config in
-            guard let url = config.agentsMarkdownURL else { return nil }
+            guard let url = config.instructionsURL else { return nil }
             return SymlinkWorker.AgentMarkdownLocation(agentID: config.id, url: url)
         }
 
@@ -105,7 +105,7 @@ import Observation
 
     func createSymlink(for agentID: AgentID) async throws {
         guard let config = AgentConfig.all.first(where: { $0.id == agentID }),
-              let symlinkURL = config.agentsMarkdownURL else {
+              let symlinkURL = config.instructionsURL else {
             throw NSError(
                 domain: "AgentsMdStore",
                 code: 1,
@@ -124,7 +124,7 @@ import Observation
 
     func removeSymlink(for agentID: AgentID) async throws {
         guard let config = AgentConfig.all.first(where: { $0.id == agentID }),
-              let symlinkURL = config.agentsMarkdownURL else {
+              let symlinkURL = config.instructionsURL else {
             throw NSError(
                 domain: "AgentsMdStore",
                 code: 2,
@@ -144,7 +144,7 @@ import Observation
 
         for symlink in symlinks where symlink.status.canLink {
             guard let config = AgentConfig.all.first(where: { $0.id == symlink.id }),
-                  let symlinkURL = config.agentsMarkdownURL else {
+                  let symlinkURL = config.instructionsURL else {
                 continue
             }
             try await worker.createSymlink(at: symlinkURL, pointingTo: centralURL)
@@ -160,7 +160,7 @@ import Observation
 
     func openAgentFolder(for agentID: AgentID) {
         guard let config = AgentConfig.all.first(where: { $0.id == agentID }),
-              let url = config.agentsMarkdownURL else {
+              let url = config.instructionsURL else {
             return
         }
         NSWorkspace.shared.activateFileViewerSelecting([url])

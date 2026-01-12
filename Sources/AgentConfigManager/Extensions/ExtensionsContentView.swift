@@ -1,42 +1,21 @@
 import SwiftUI
 
 struct ExtensionsContentView: View {
-    @Environment(AppModel.self) private var appModel
     @Environment(ExtensionStore.self) private var store
-
-    private var shouldShowExtensions: Bool {
-        appModel.selectedAgents.isEmpty || appModel.selectedAgents.contains(.pi)
-    }
 
     var body: some View {
         @Bindable var store = store
 
-        Group {
-            if shouldShowExtensions {
-                extensionsList
-            } else {
-                ContentUnavailableView(
-                    "Select Pi Agent",
-                    systemImage: "puzzlepiece.extension",
-                    description: Text("Extensions are only available for Pi Agent.")
-                )
-            }
+        List(store.extensions, selection: $store.selectedExtensionID) { ext in
+            ExtensionRowView(extension: ext)
         }
+        .listStyle(.sidebar)
         .task {
             await store.load()
         }
         .onChange(of: store.selectedExtensionID) { _, _ in
             Task { await store.loadSelectedExtension() }
         }
-    }
-
-    private var extensionsList: some View {
-        @Bindable var store = store
-
-        return List(store.extensions, selection: $store.selectedExtensionID) { ext in
-            ExtensionRowView(extension: ext)
-        }
-        .listStyle(.sidebar)
     }
 }
 

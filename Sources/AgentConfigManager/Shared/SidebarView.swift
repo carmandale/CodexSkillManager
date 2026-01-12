@@ -2,75 +2,53 @@ import SwiftUI
 
 struct SidebarView: View {
     @Environment(AppModel.self) private var appModel
+    @Environment(AgentStatusStore.self) private var agentStatus
 
     var body: some View {
-        List {
+        @Bindable var appModel = appModel
+
+        List(selection: $appModel.selectedSection) {
             Section("Sections") {
                 ForEach(NavigationSection.allCases) { section in
                     Label(section.name, systemImage: section.symbolName)
                         .tag(section)
-                        .onTapGesture {
-                            appModel.selectedSection = section
-                        }
-                        .listRowBackground(
-                            appModel.selectedSection == section
-                                ? Color.accentColor.opacity(0.2)
-                                : Color.clear
-                        )
                 }
             }
 
-            Section("Agents") {
-                AgentToggleRow(
-                    label: "All Agents",
-                    isOn: appModel.selectedAgents.isEmpty,
-                    onToggle: {
-                        appModel.selectedAgents = []
-                        appModel.persistAgentSelection()
+            Section("Installed Agents") {
+                ForEach(agentStatus.statuses) { status in
+                    Button {
+                        appModel.selectedAgentForDetail = status.agent.id
+                    } label: {
+                        AgentStatusRow(status: status)
                     }
-                )
-
-                ForEach(AgentConfig.all) { config in
-                    AgentToggleRow(
-                        label: config.displayName,
-                        badgeColor: config.badgeColor,
-                        isOn: appModel.selectedAgents.contains(config.id),
-                        onToggle: {
-                            if appModel.selectedAgents.contains(config.id) {
-                                appModel.selectedAgents.remove(config.id)
-                            } else {
-                                appModel.selectedAgents.insert(config.id)
-                            }
-                            appModel.persistAgentSelection()
-                        }
-                    )
+                    .buttonStyle(.plain)
                 }
             }
         }
         .listStyle(.sidebar)
+        .task {
+            await agentStatus.load()
+        }
     }
 }
 
-private struct AgentToggleRow: View {
-    let label: String
-    var badgeColor: Color? = nil
-    let isOn: Bool
-    let onToggle: () -> Void
+private struct AgentStatusRow: View {
+    let status: AgentInstallStatus
 
     var body: some View {
-        Button(action: onToggle) {
-            HStack {
-                if let badgeColor {
-                    Circle()
-                        .fill(badgeColor)
-                        .frame(width: 8, height: 8)
-                }
-                Text(label)
-                Spacer()
-                Image(systemName: isOn ? "checkmark.square.fill" : "square")
-                    .foregroundColor(isOn ? .accentColor : .secondary)
-            }
+        HStack(spacing: 8) {
+            Circle()
+                .fill(status.agent.badgeColor)
+                .frame(width: 8, height: 8)
+
+            Text(status.agent.displayName)
+
+            Spacer()
+
+            Image(systemName: status.statusIcon)
+                .foregroundStyle(status.statusColor)
+                .font(.caption)
         }
-        .buttonStyle(.plain)
     }
 }

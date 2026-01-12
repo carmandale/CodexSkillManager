@@ -18,6 +18,7 @@ struct AgentConfigManagerApp: App {
     @State private var settings = SettingsStore()
     @State private var repoStore: RepoStore?
     @State private var appModel: AppModel?
+    @State private var agentStatusStore = AgentStatusStore()
 
     init() {
         let pathStore = CustomPathStore()
@@ -39,6 +40,7 @@ struct AgentConfigManagerApp: App {
                         .environment(appModel.repoStore)
                         .environment(appModel.settings)
                         .environment(customPathStore)
+                        .environment(agentStatusStore)
                         .sheet(isPresented: Binding(
                             get: { appModel.showMigrationWizard },
                             set: { appModel.showMigrationWizard = $0 }

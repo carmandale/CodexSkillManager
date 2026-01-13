@@ -20,13 +20,28 @@ struct AgentSymlink: Identifiable, Hashable, Sendable {
             case .linked:
                 return "Linked"
             case .stale:
-                return "Stale"
+                return "Outdated Link"
             case .regularFile:
                 return "File Exists"
             case .unlinked:
                 return "Unlinked"
             case .parentMissing:
                 return "Not Installed"
+            }
+        }
+
+        var statusDescription: String {
+            switch self {
+            case .linked:
+                return "Symlink correctly points to central AGENTS.md"
+            case .stale:
+                return "Symlink exists but points to a different file. Update to link to central AGENTS.md."
+            case .regularFile:
+                return "A regular file exists instead of a symlink. It can be replaced with a symlink."
+            case .unlinked:
+                return "No AGENTS.md exists. Create a symlink to share central configuration."
+            case .parentMissing:
+                return "Agent's config directory doesn't exist. Install the agent first."
             }
         }
 

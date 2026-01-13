@@ -150,6 +150,7 @@ struct SymlinkWizardView: View {
                                 Text(symlink.status.displayName)
                             }
                             .frame(width: 120, alignment: .leading)
+                            .help(symlink.status.statusDescription)
 
                             Spacer()
 

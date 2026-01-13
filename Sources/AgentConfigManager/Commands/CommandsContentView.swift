@@ -23,9 +23,26 @@ struct CommandsContentView: View {
         List(selection: $store.selectedCommandID) {
             ForEach(CommandSource.allCases) { source in
                 if let commands = groupedCommands[source], !commands.isEmpty {
-                    Section(source.displayName) {
+                    Section {
                         ForEach(commands) { command in
                             CommandRowView(command: command)
+                        }
+                    } header: {
+                        HStack {
+                            if let agentID = source.agentID,
+                               let config = AgentConfig.config(for: agentID) {
+                                Circle().fill(config.badgeColor)
+                                    .frame(width: 8, height: 8)
+                            } else {
+                                // Central commands (user/project level)
+                                Circle().fill(.gray)
+                                    .frame(width: 8, height: 8)
+                            }
+                            Text(source.displayName)
+                            Spacer()
+                            Text("\(commands.count)")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
                     }
                 }

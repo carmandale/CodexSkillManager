@@ -6,8 +6,25 @@ struct ExtensionsContentView: View {
     var body: some View {
         @Bindable var store = store
 
-        List(store.extensions, selection: $store.selectedExtensionID) { ext in
-            ExtensionRowView(extension: ext)
+        List(selection: $store.selectedExtensionID) {
+            if let piConfig = AgentConfig.config(for: .pi) {
+                Section {
+                    ForEach(store.extensions) { ext in
+                        ExtensionRowView(extension: ext)
+                            .tag(ext.id)
+                    }
+                } header: {
+                    HStack {
+                        Circle().fill(piConfig.badgeColor)
+                            .frame(width: 8, height: 8)
+                        Text("Pi Agent Extensions")
+                        Spacer()
+                        Text("\(store.extensions.count)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
         }
         .listStyle(.sidebar)
         .task {

@@ -22,6 +22,17 @@ enum RepoStatus: String, CaseIterable, Identifiable, Hashable, Sendable {
         case .noAgentsMd: return "circle"
         }
     }
+
+    var statusDescription: String {
+        switch self {
+        case .bloated:
+            return "AGENTS.md exceeds 1KB. Consider moving project-specific context to the central AGENTS.md or removing unused sections."
+        case .minimal:
+            return "AGENTS.md is under 1KB - a healthy size for a symlinked config file."
+        case .noAgentsMd:
+            return "No AGENTS.md file exists in this repository. Consider creating one or symlinking to the central config."
+        }
+    }
 }
 
 struct Repo: Identifiable, Hashable, Sendable {

@@ -16,6 +16,7 @@ struct AgentConfigManagerApp: App {
     @State private var commandStore = CommandStore()
     @State private var agentsMdStore = AgentsMdStore()
     @State private var hookStore = HookStore()
+    @State private var pluginStore = PluginStore()
     @State private var settings = SettingsStore()
     @State private var repoStore: RepoStore?
     @State private var appModel: AppModel?
@@ -43,6 +44,7 @@ struct AgentConfigManagerApp: App {
                         .environment(customPathStore)
                         .environment(agentStatusStore)
                         .environment(hookStore)
+                        .environment(pluginStore)
                         .sheet(isPresented: Binding(
                             get: { appModel.showMigrationWizard },
                             set: { appModel.showMigrationWizard = $0 }

@@ -22,6 +22,15 @@ enum CommandSource: String, CaseIterable, Identifiable, Hashable, Sendable {
         case .claude: return AgentConfigPaths.claudeCommandsURL
         }
     }
+
+    /// Maps command source to its corresponding agent ID (nil for central/shared commands)
+    var agentID: AgentID? {
+        switch self {
+        case .central: return nil
+        case .pi: return .pi
+        case .claude: return .claude
+        }
+    }
 }
 
 struct Command: Identifiable, Hashable, Sendable {

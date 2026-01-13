@@ -76,6 +76,7 @@ struct ReposContentView: View {
             Image(systemName: status.symbolName)
             Text("\(status.displayName) (\(count))")
         }
+        .help(status.statusDescription)
     }
 }
 
@@ -99,6 +100,7 @@ private struct RepoRowView: View {
 
             Image(systemName: repo.status.symbolName)
                 .foregroundStyle(statusColor(for: repo.status))
+                .help(repo.status.statusDescription)
         }
         .tag(repo.id)
     }

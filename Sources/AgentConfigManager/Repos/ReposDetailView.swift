@@ -72,6 +72,7 @@ struct ReposDetailView: View {
             HStack(spacing: 12) {
                 Label(repo.status.displayName, systemImage: repo.status.symbolName)
                     .foregroundStyle(statusColor(for: repo.status))
+                    .help(repo.status.statusDescription)
 
                 if repo.hasAgentsMd {
                     Label(repo.fileSizeFormatted, systemImage: "doc.text")

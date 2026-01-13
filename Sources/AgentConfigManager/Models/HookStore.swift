@@ -5,7 +5,9 @@ import Foundation
 final class HookStore {
     var hooks: [Hook] = []
     var selectedHookID: String?
+    var selectedSource: String = ""
     var isLoading = false
+    var isLoadingSource = false
     var errorMessage: String?
 
     /// Hooks grouped by event type
@@ -20,6 +22,45 @@ final class HookStore {
 
     var selectedHook: Hook? {
         hooks.first { $0.id == selectedHookID }
+    }
+
+    func loadSelectedHookSource() async {
+        guard let hook = selectedHook else {
+            selectedSource = ""
+            return
+        }
+
+        isLoadingSource = true
+
+        // Extract source path from command
+        // Commands like: node "/path/to/script.mjs"
+        // or: python "/path/to/script.py"
+        let sourceURL = extractSourcePath(from: hook.command)
+
+        if let url = sourceURL, FileManager.default.fileExists(atPath: url.path) {
+            do {
+                selectedSource = try String(contentsOf: url, encoding: .utf8)
+            } catch {
+                selectedSource = "// Error loading source: \(error.localizedDescription)"
+            }
+        } else {
+            selectedSource = "// Source file not found\n// Command: \(hook.command)"
+        }
+
+        isLoadingSource = false
+    }
+
+    private func extractSourcePath(from command: String) -> URL? {
+        // Try to find quoted path in command
+        let pattern = "\"([^\"]+)\""
+        guard let regex = try? NSRegularExpression(pattern: pattern),
+              let match = regex.firstMatch(in: command, range: NSRange(command.startIndex..., in: command)),
+              let range = Range(match.range(at: 1), in: command) else {
+            return nil
+        }
+
+        let path = String(command[range])
+        return URL(fileURLWithPath: path)
     }
 
     func load() async {

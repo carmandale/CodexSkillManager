@@ -1,5 +1,21 @@
 import Foundation
 
+/// Documentation links for an agent
+struct AgentDocumentation: Hashable, Sendable {
+    /// Local file that can be opened in editor (e.g., AGENTS.md, CLAUDE.md)
+    let fileURL: URL?
+
+    /// Website documentation URL
+    let websiteURL: URL?
+
+    /// Display name for the documentation file
+    var fileDisplayName: String {
+        fileURL?.lastPathComponent ?? ""
+    }
+
+    static let none = AgentDocumentation(fileURL: nil, websiteURL: nil)
+}
+
 /// Defines what capabilities an agent supports and how
 struct AgentCapabilities: Hashable, Sendable {
     let skills: SupportMode
@@ -11,6 +27,9 @@ struct AgentCapabilities: Hashable, Sendable {
 
     /// The filename used for skill documentation (e.g., "SKILL.md")
     let skillDocFilename: String
+
+    /// Agent documentation (file and website)
+    let documentation: AgentDocumentation
 
     /// All content URLs for this agent (used to determine "hasContent")
     var contentURLs: [URL] {
@@ -27,7 +46,11 @@ struct AgentCapabilities: Hashable, Sendable {
         hooks: .viaExtensions,
         commands: .viaExtensions,  // Commands registered via pi.registerCommand()
         instructions: .folder(AgentConfigPaths.piAgentsMarkdownURL),
-        skillDocFilename: "SKILL.md"
+        skillDocFilename: "SKILL.md",
+        documentation: AgentDocumentation(
+            fileURL: AgentConfigPaths.piAgentsMarkdownURL,
+            websiteURL: URL(string: "https://github.com/anthropics/pi-agent")
+        )
     )
 
     static let claude = AgentCapabilities(
@@ -37,7 +60,11 @@ struct AgentCapabilities: Hashable, Sendable {
         hooks: .folder(AgentConfigPaths.claudeHooksURL),  // Also configured in settings.json
         commands: .folder(AgentConfigPaths.claudeCommandsURL),
         instructions: .folder(AgentConfigPaths.claudeAgentsMarkdownURL),
-        skillDocFilename: "SKILL.md"
+        skillDocFilename: "SKILL.md",
+        documentation: AgentDocumentation(
+            fileURL: AgentConfigPaths.claudeAgentsMarkdownURL,
+            websiteURL: URL(string: "https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview")
+        )
     )
 
     static let codex = AgentCapabilities(
@@ -47,7 +74,11 @@ struct AgentCapabilities: Hashable, Sendable {
         hooks: .none,
         commands: .folder(AgentConfigPaths.codexPromptsURL),  // "prompts" = commands for Codex
         instructions: .folder(AgentConfigPaths.codexAgentsMarkdownURL),
-        skillDocFilename: "SKILL.md"
+        skillDocFilename: "SKILL.md",
+        documentation: AgentDocumentation(
+            fileURL: AgentConfigPaths.codexAgentsMarkdownURL,
+            websiteURL: URL(string: "https://github.com/openai/codex")
+        )
     )
 
     static let opencode = AgentCapabilities(
@@ -57,6 +88,10 @@ struct AgentCapabilities: Hashable, Sendable {
         hooks: .viaPlugins,
         commands: .folder(AgentConfigPaths.opencodeCommandsURL),
         instructions: .folder(AgentConfigPaths.opencodeAgentsMarkdownURL),
-        skillDocFilename: "SKILL.md"
+        skillDocFilename: "SKILL.md",
+        documentation: AgentDocumentation(
+            fileURL: AgentConfigPaths.opencodeAgentsMarkdownURL,
+            websiteURL: URL(string: "https://github.com/sst/opencode")
+        )
     )
 }

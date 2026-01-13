@@ -20,7 +20,10 @@ struct SidebarView: View {
                     Button {
                         appModel.selectedAgentForDetail = status.agent.id
                     } label: {
-                        AgentStatusRow(status: status)
+                        AgentStatusRow(
+                            status: status,
+                            isSelected: appModel.selectedAgentForDetail == status.agent.id
+                        )
                     }
                     .buttonStyle(.plain)
                 }
@@ -39,6 +42,11 @@ struct SidebarView: View {
 
 private struct AgentStatusRow: View {
     let status: AgentInstallStatus
+    let isSelected: Bool
+
+    private var backgroundColor: Color {
+        isSelected ? Color.accentColor.opacity(0.2) : Color.clear
+    }
 
     var body: some View {
         HStack(spacing: 8) {
@@ -54,5 +62,11 @@ private struct AgentStatusRow: View {
                 .foregroundStyle(status.statusColor)
                 .font(.caption)
         }
+        .padding(.horizontal, 6)
+        .padding(.vertical, 4)
+        .background(
+            RoundedRectangle(cornerRadius: 6)
+                .fill(backgroundColor)
+        )
     }
 }
